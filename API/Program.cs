@@ -27,6 +27,8 @@ namespace API
 
             //cau hinh de fetch api
             builder.Services.AddCors();
+
+            //add jwt
             builder.Services.AddScoped<ITokenService, TokenService>();
 
 

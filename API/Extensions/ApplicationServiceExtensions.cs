@@ -9,13 +9,13 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //cau hinh file appsettings.json
+            //cấu hình để kết nối với DB
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
 
-            //cau hinh de fetch api
+            //cấu hình để có thể gọi các endpoint
             services.AddCors();
             //add jwt
             services.AddScoped<ITokenService, TokenService>();

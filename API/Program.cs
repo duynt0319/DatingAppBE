@@ -47,7 +47,7 @@ namespace API
                 });
             }
 
-            //cau hinh de fetch api
+            //cấu hình để bên front end có thể gọi được api
             app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
             app.UseHttpsRedirection();

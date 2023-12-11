@@ -1,5 +1,7 @@
 
 using API.Data;
+using API.Interfaces;
+using API.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace API
@@ -21,7 +23,12 @@ namespace API
             builder.Services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            }); 
+            });
+
+            //cau hinh de fetch api
+            builder.Services.AddCors();
+            builder.Services.AddScoped<ITokenService, TokenService>();
+
 
             var app = builder.Build();
 
@@ -31,6 +38,9 @@ namespace API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            //cau hinh de fetch api
+            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
             app.UseHttpsRedirection();
 

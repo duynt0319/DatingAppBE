@@ -1,5 +1,6 @@
 ﻿
 using API.Data;
+using API.Extensions;
 using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -17,66 +18,13 @@ namespace API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
 
-
-            //cau hinh file appsettings.json
-            builder.Services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
-
-            //cau hinh de fetch api
-            builder.Services.AddCors();
-
-            //add jwt
-            builder.Services.AddScoped<ITokenService, TokenService>();
-
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(option =>
-            {
-                option.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["TokenKey"])),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
-
-                // Cấu hình xác thực Bearer
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please enter JWT with Bearer into field",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] {}
-        }
-    });
-            });
-
-
+            //cấu hình kết nối db và cấu hình để fetchAPI
+            builder.Services.AddApplicationServices(builder.Configuration);
+            
+            //cấu hình jwt, authorize và authentication
+            builder.Services.AddIdentityServices(builder.Configuration);
 
 
             var app = builder.Build();
@@ -93,9 +41,9 @@ namespace API
                     c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
                     c.OAuthAppName("Your API - Swagger UI");
                     c.OAuthAdditionalQueryStringParams(new Dictionary<string, string>
-    {
-        { "access_token", "your-jwt-token" }
-    });
+                    {
+                        { "access_token", "your-jwt-token" }
+                    });
                 });
             }
 

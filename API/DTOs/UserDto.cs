@@ -3,6 +3,6 @@
     public class UserDto
     {
         public string Username { get; set; }
-        public string Tokenkey { get; set; }
+        public string TokenKey { get; set; }
     }
 }

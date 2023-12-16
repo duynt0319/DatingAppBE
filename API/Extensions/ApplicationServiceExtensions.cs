@@ -1,5 +1,7 @@
 ﻿using API.Data;
 using API.Interfaces;
+using API.Repository;
+using API.Repository.IRepository;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +21,10 @@ namespace API.Extensions
             services.AddCors();
             //add jwt
             services.AddScoped<ITokenService, TokenService>();
+            //add cau hin repository
+            services.AddScoped<IUserRepository, UserRepository>();
+            //add cau hinh mapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             return services;
         }

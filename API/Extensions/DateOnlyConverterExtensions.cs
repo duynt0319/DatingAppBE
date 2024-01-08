@@ -5,8 +5,7 @@ namespace API.Extensions
     public class DateOnlyConverterExtensions: ValueConverter<DateOnly, DateTime>
     {
         public DateOnlyConverterExtensions()
-       : base(dateOnly =>
-               dateOnly.ToDateTime(TimeOnly.MinValue),
+       : base(dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
            dateTime => DateOnly.FromDateTime(dateTime))
         { }
     }

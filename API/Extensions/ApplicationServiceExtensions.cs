@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Helpers;
 using API.Interfaces;
 using API.Repository;
 using API.Repository.IRepository;
@@ -25,6 +26,9 @@ namespace API.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             //add cau hinh mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            //add cau hinh Cloudinary
+            services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
+            services.AddScoped<IPhotoService, PhotoService>();
 
             return services;
         }

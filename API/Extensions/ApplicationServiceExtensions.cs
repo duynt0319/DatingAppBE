@@ -29,6 +29,8 @@ namespace API.Extensions
             //add cau hinh Cloudinary
             services.Configure<CloudinarySettings>(configuration.GetSection("CloudinarySettings"));
             services.AddScoped<IPhotoService, PhotoService>();
+            //add cau hinh userlogActivity
+            services.AddScoped<LogUserActivity>();
 
             return services;
         }

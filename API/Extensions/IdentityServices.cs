@@ -23,20 +23,22 @@ namespace API.Extensions
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerGen(option =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+                option.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
 
                 // Cấu hình xác thực Bearer
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
                     Description = "Please enter JWT with Bearer into field",
                     Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
                 });
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -47,11 +49,10 @@ namespace API.Extensions
                                 Id = "Bearer"
                             }
                         },
-                        new string[] {}
-                }
+                        new string[]{}
+                    }
+                });
             });
-            });
-
             return services;
         }
     }

@@ -37,7 +37,6 @@ namespace API
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API V1");
-
                     // Thêm nút Authorize trong Swagger UI
                     c.OAuthUseBasicAuthenticationWithAccessCodeGrant();
                     c.OAuthAppName("Your API - Swagger UI");

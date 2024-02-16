@@ -1,8 +1,7 @@
 ﻿using API.Data;
 using API.Helpers;
+using API.Implement;
 using API.Interfaces;
-using API.Repository;
-using API.Repository.IRepository;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +23,7 @@ namespace API.Extensions
             services.AddScoped<ITokenService, TokenService>();
             //add cau hin repository
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ILikesRepository,LikeRepository>();
             //add cau hinh mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //add cau hinh Cloudinary
@@ -31,6 +31,7 @@ namespace API.Extensions
             services.AddScoped<IPhotoService, PhotoService>();
             //add cau hinh userlogActivity
             services.AddScoped<LogUserActivity>();
+
 
             return services;
         }

@@ -14,22 +14,37 @@ namespace API.Data
 
         public DbSet<AppUser> Users { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<AppUser>().HasData(
-        //        new AppUser { Id = 1, UserName = "John" },
-        //        new AppUser { Id = 2, UserName = "Duy" }
-        //    );
-        //}
+        public DbSet<UserLike> Likes { get; set; }
+
+
         protected override void ConfigureConventions(ModelConfigurationBuilder builder)
         {
-
             builder.Properties<DateOnly>()
                 .HaveConversion<DateOnlyConverterExtensions>()
                 .HaveColumnType("date");
 
             base.ConfigureConventions(builder);
+        }
 
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<UserLike>()
+                .HasKey(k => new { k.SourceUserId, k.TargetUserId });
+
+            builder.Entity<UserLike>()
+                .HasOne(s => s.SourceUser)
+                .WithMany(l => l.LikedUsers)
+                .HasForeignKey(s => s.SourceUserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<UserLike>()
+                .HasOne(s => s.TargetUser)
+                .WithMany(l => l.LikeByUsers)
+                .HasForeignKey(s => s.TargetUserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

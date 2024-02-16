@@ -2,12 +2,12 @@
 using API.DTOs;
 using API.Entities;
 using API.Helpers;
-using API.Repository.IRepository;
+using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Repository
+namespace API.Implement
 {
     public class UserRepository : IUserRepository
     {

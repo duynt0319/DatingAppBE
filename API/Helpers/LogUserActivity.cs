@@ -1,5 +1,5 @@
 ﻿using API.Extensions;
-using API.Repository.IRepository;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace API.Helpers
@@ -16,7 +16,7 @@ namespace API.Helpers
 
             var repo = reultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
 
-            var user = await repo.GetUserByIdAsync(int.Parse(userId));
+            var user = await repo.GetUserByIdAsync(userId);
             user.LastActive = DateTime.UtcNow;
             await repo.SaveAllAsyn();
         }

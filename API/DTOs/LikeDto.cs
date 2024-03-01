@@ -1,4 +1,4 @@
-﻿namespace API.Entities
+﻿namespace API.DTOs
 {
     public class LikeDto
     {

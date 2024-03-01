@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.Helpers;
@@ -22,7 +23,7 @@ namespace API.Implement
             return await _dataContext.Likes.FindAsync(sourceUserId, targetUserId);
         }
 
-        public async Task<PageList<LikeDto>> GetUserLikes(LikesParams likesParams)
+        public async Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams)
         {
             var users = _dataContext.Users.OrderBy(u => u.UserName).AsQueryable();
             var likes = _dataContext.Likes.AsQueryable();
@@ -49,7 +50,7 @@ namespace API.Implement
                 Id = user.Id,
             });
 
-            return await PageList<LikeDto>.CreateAsyns(likedUsers, likesParams.PageNumber, likesParams.PageSize);
+            return await PagedList<LikeDto>.CreateAsync(likedUsers, likesParams.PageNumber, likesParams.PageSize);
         }
 
         public async Task<AppUser> GetUserWithLikes(int userId)

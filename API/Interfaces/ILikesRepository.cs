@@ -1,4 +1,5 @@
-﻿using API.Entities;
+﻿using API.DTOs;
+using API.Entities;
 using API.Helpers;
 
 namespace API.Interfaces
@@ -7,6 +8,6 @@ namespace API.Interfaces
     {
         Task<UserLike> GetUserLike(int sourceUserId, int targetUserId);
         Task<AppUser> GetUserWithLikes(int userId);
-        Task<PageList<LikeDto>> GetUserLikes(LikesParams likesParams);
+        Task<PagedList<LikeDto>> GetUserLikes(LikesParams likesParams);
     }
 }

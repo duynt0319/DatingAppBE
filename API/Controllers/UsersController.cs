@@ -27,7 +27,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PageList<MemberDto>>> GetUser([FromQuery] UserParams userParams)
+        public async Task<ActionResult<PagedList<MemberDto>>> GetUser([FromQuery] UserParams userParams)
         {
             var currentUser = await _userRepository.GetUserByUserNameAsync(User.GetUsername());
             userParams.CurrentUsername = currentUser.UserName;

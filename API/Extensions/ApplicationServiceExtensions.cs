@@ -31,6 +31,8 @@ namespace API.Extensions
             services.AddScoped<IPhotoService, PhotoService>();
             //add cau hinh userlogActivity
             services.AddScoped<LogUserActivity>();
+            //add cau hinh cho message
+            services.AddScoped<IMessageRepository, MessageRepository>();
 
 
             return services;

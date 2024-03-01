@@ -20,7 +20,7 @@ namespace API.Implement
             _mapper = mapper;
         }
 
-        public async Task<PageList<MemberDto>> GetMembersAsync(UserParams userParams)
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
         {
             var query = _context.Users.AsQueryable();
 
@@ -38,7 +38,7 @@ namespace API.Implement
                 _ => query.OrderByDescending(u => u.LastActive)
             };
 
-            return await PageList<MemberDto>.CreateAsyns(
+            return await PagedList<MemberDto>.CreateAsync(
                 query.AsNoTracking().ProjectTo<MemberDto>(_mapper.ConfigurationProvider),
                 userParams.PageNumber, 
                 userParams.PageSize);

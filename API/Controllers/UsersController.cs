@@ -42,7 +42,6 @@ namespace API.Controllers
                 user.TotalCount, user.TotalPages));
 
             return Ok(user);
-
         }
 
         [HttpGet("{username}")]

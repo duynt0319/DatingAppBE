@@ -1,10 +1,11 @@
-﻿ 
+﻿
 using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using API.MiddleWare;
 using API.Services;
+using API.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace API
 
             //cấu hình kết nối db và cấu hình để fetchAPI
             builder.Services.AddApplicationServices(builder.Configuration);
-            
+
             //cấu hình jwt, authorize và authentication
             builder.Services.AddIdentityServices(builder.Configuration);
 
@@ -53,7 +54,11 @@ namespace API
             app.UseMiddleware<ExceptionMiddleware>();
 
             //cấu hình để bên front end có thể gọi được api
-            app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+            app.UseCors(builder => builder
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod()
+                                        .AllowCredentials()
+                                        .WithOrigins("https://localhost:4200"));
 
             app.UseHttpsRedirection();
 
@@ -62,6 +67,9 @@ namespace API
 
 
             app.MapControllers();
+            app.MapHub<PresenceHub>("hubs/presence");
+            app.MapHub<MessageHub>("hubs/message");
+
 
             using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
@@ -71,6 +79,7 @@ namespace API
                 var userManager = services.GetRequiredService<UserManager<AppUser>>();
                 var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
                 await context.Database.MigrateAsync();
+                await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE [Connections]");
                 await Seed.SeedUsers(userManager, roleManager);
             }
             catch (Exception ex)

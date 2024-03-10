@@ -3,6 +3,7 @@ using API.Helpers;
 using API.Implement;
 using API.Interfaces;
 using API.Services;
+using API.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions
@@ -33,6 +34,9 @@ namespace API.Extensions
             services.AddScoped<LogUserActivity>();
             //add cau hinh cho message
             services.AddScoped<IMessageRepository, MessageRepository>();
+            //add signalR
+            services.AddSignalR();
+            services.AddSingleton<PresenceTracker>();
 
 
             return services;

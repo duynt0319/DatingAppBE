@@ -14,11 +14,11 @@ namespace API.Helpers
 
             var userId = reultContext.HttpContext.User.GetUserId();
 
-            var repo = reultContext.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+            var uow = reultContext.HttpContext.RequestServices.GetRequiredService<IUnitOfWord>();
 
-            var user = await repo.GetUserByIdAsync(userId);
+            var user = await uow.UserRepository.GetUserByIdAsync(userId);
             user.LastActive = DateTime.UtcNow;
-            await repo.SaveAllAsyn();
+            await uow.Complete();
         }
     }
 }

@@ -17,10 +17,6 @@ namespace API.Data
         public DbSet<Group> Groups { get; set; }
         public DbSet<Connection> Connections { get; set; }
 
-
-
-
-
         protected override void ConfigureConventions(ModelConfigurationBuilder builder)
         {
             builder.Properties<DateOnly>()

@@ -22,9 +22,13 @@ namespace API.Extensions
             services.AddCors();
             //add jwt
             services.AddScoped<ITokenService, TokenService>();
-            //add cau hin repository
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ILikesRepository,LikeRepository>();
+
+            //add cau hinh repository
+            //services.AddScoped<IUserRepository, UserRepository>();
+            //services.AddScoped<ILikesRepository, LikeRepository>();
+            //add cau hinh cho message
+            //services.AddScoped<IMessageRepository, MessageRepository>();
+
             //add cau hinh mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //add cau hinh Cloudinary
@@ -32,11 +36,12 @@ namespace API.Extensions
             services.AddScoped<IPhotoService, PhotoService>();
             //add cau hinh userlogActivity
             services.AddScoped<LogUserActivity>();
-            //add cau hinh cho message
-            services.AddScoped<IMessageRepository, MessageRepository>();
+            
             //add signalR
             services.AddSignalR();
             services.AddSingleton<PresenceTracker>();
+            //add cau hinh unitofwork
+            services.AddScoped<IUnitOfWord, UnitOfWork>();
 
 
             return services;

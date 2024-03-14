@@ -12,11 +12,17 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //cấu hình để kết nối với DB
+            //cấu hình để kết nối với MQLDB
             services.AddDbContext<DataContext>(opt =>
             {
                 opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             });
+
+            ////cấu hình để kết nối với PostGres DB
+            //services.AddDbContext<DataContext>(opt =>
+            //{
+            //    opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            //});
 
             //cấu hình để có thể gọi các endpoint
             services.AddCors();

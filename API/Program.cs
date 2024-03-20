@@ -21,6 +21,20 @@ namespace API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
+
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
+                                  });
+            });
+
+
+
             // Add services to the container.
             builder.Services.AddControllers();
 
@@ -32,6 +46,9 @@ namespace API
 
 
             var app = builder.Build();
+
+            //cors
+            app.UseCors(MyAllowSpecificOrigins);
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

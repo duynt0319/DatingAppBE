@@ -12,20 +12,28 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //cấu hình để kết nối với MQLDB
-            services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            });
-
-            ////cấu hình để kết nối với PostGres DB
+            ////cấu hình để kết nối với MQLDB
             //services.AddDbContext<DataContext>(opt =>
             //{
-            //    opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            //    opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
             //});
 
+            //cấu hình để kết nối với PostGres DB
+            services.AddDbContext<DataContext>(opt =>
+            {
+                opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
+            });
+
             //cấu hình để có thể gọi các endpoint
-            services.AddCors();
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy",
+            //        builder => builder
+            //            .WithOrigins("http://localhost:8080") // Cho phép yêu cầu từ domain này
+            //            .AllowAnyMethod()
+            //            .AllowAnyHeader()
+            //            .AllowCredentials()); // Nếu bạn sử dụng cookie hoặc credential, bạn cần cung cấp AllowCredentials
+            //});
             //add jwt
             services.AddScoped<ITokenService, TokenService>();
 
